@@ -1,0 +1,14 @@
+package scheduler;
+
+public class ServerScheduler {
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		//Read in task set. Make a list of tasks
+		
+
+	}
+
+}

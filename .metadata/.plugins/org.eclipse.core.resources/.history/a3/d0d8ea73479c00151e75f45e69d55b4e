@@ -1,0 +1,11 @@
+package scheduler;
+
+public class ServerScheduler {
+	
+	//Put code here
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,16 @@
+package scheduler;
+
+public class Task 
+{
+	int startTime;
+	int endTime;
+	int arrivalTime;
+	int exeTime;
+	int compTimeRemaining;
+	int taskInstance = 1;
+	
+	public Task()
+	{
+		
+	}
+}

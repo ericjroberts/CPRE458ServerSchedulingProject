@@ -1,0 +1,46 @@
+package scheduler;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+
+public class ServerScheduler {
+	
+	ArrayList<Task> taskList;
+	ArrayList<TaskInstance> activePTasks;
+	//Send to server when it's time
+	ArrayList<TaskInstance> activeAPTasks;
+	
+	
+	
+	public static void main(String[] args) {		
+		//Read in task set. Make a list of tasks
+        try {
+            FileReader fReader = new FileReader("taskSet1.txt");
+
+            BufferedReader bReader =  new BufferedReader(fReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }   
+
+            // Always close files.
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");                  
+            // Or we could just do this: 
+            // ex.printStackTrace();
+        }
+		
+
+	}
+
+}

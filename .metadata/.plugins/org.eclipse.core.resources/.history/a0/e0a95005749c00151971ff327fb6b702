@@ -30,9 +30,4 @@ public class Task
 		//Should have no period
 		return (period == 0);
 	}
-	
-	public boolean isServerTask()
-	{
-		return isServerTask;
-	}
 }

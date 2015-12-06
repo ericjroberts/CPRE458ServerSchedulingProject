@@ -1,0 +1,19 @@
+package scheduler;
+
+import java.util.ArrayList;
+
+public class ServerScheduler {
+	
+	ArrayList<Task> taskList;
+	ArrayList<TaskInstance> activePTasks;
+	ArrayList<TaskInstance> activeAPTasks;
+	
+	
+	
+	public static void main(String[] args) {		
+		//Read in task set. Make a list of tasks
+		
+
+	}
+
+}

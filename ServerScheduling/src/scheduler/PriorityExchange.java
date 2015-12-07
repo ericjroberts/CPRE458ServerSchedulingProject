@@ -4,21 +4,15 @@ import java.util.ArrayList;
 
 public class PriorityExchange extends PeriodicServer
 {
-	public PriorityExchange(int serverTime)
+	public PriorityExchange(int serverTime, int per)
 	{
-		super(serverTime);
+		super(serverTime, per);
 	}
 
 	@Override
-	public ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> list) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<TaskInstance> update(ArrayList<TaskInstance> list) {
-		// TODO Auto-generated method stub
-		return null;
+	public void update(ArrayList<TaskInstance> list) 
+	{
+		
 	}
 	
 }

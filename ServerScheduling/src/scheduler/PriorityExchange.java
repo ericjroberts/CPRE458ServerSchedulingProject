@@ -86,6 +86,21 @@ public class PriorityExchange extends PeriodicServer
 			}			
 		}
 		
+		//Comp time left and no AP tasks
+		if(switchedTask == null && activeAPList.size() == 0)
+		{
+			for(int i=0;i<activePList.size();i++)
+			{
+				//Switch priorities
+				if(activePList.get(i).period > period)
+				{
+					switchedTask = activePList.get(i);
+					tempPeriod = activePList.get(i).period;
+					activePList.get(i).period = period;
+					switchTimeLeft = compTimeleft;
+				}
+			}
+		}
 		
 		//If there are periodic tasks waiting
 		if(activeAPList.size() > 0 && !activePList.contains(deferredInstance))

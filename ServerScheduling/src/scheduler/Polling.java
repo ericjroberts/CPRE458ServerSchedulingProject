@@ -17,6 +17,7 @@ public class Polling extends PeriodicServer
 			return null;
 		}
 		
+		
 		return list;
 	}
 

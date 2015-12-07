@@ -1,13 +1,17 @@
 package scheduler;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Queue;
 
 public class RMSScheduler
 {
 	private PeriodicServer server;
-	private ArrayList<TaskInstance> instances;
+	private Queue<TaskInstance> instances;
 	private ArrayList<TaskInstance> activePeriodicInstances;
 	private ArrayList<TaskInstance> activeAperiodicInstances;
+	private ArrayList<TaskInstance> completedInstances;
 	private TaskInstance executing;
 	private int totalTime;
 	
@@ -15,11 +19,13 @@ public class RMSScheduler
 	
 	
 	
-	public RMSScheduler(PeriodicServer server, ArrayList<TaskInstance> instances, int totalTime)
+	public RMSScheduler(PeriodicServer server, Queue<TaskInstance> instances, int totalTime)
 	{
 		this.server = server;
 		this.instances = instances;
 		activePeriodicInstances = new ArrayList<TaskInstance>();
+		activeAperiodicInstances = new ArrayList<TaskInstance>();
+		completedInstances = new ArrayList<TaskInstance>();
 		executing = null;
 		currentTime = 0;
 		this.totalTime = totalTime;
@@ -30,6 +36,24 @@ public class RMSScheduler
 	{
 		while(currentTime < totalTime)
 		{
+			while(instances.peek().getArrivalTime() == currentTime)
+			{
+				TaskInstance newlyActive = instances.poll();
+				
+				if(newlyActive.isAperiodic())
+				{
+					activeAperiodicInstances.add(newlyActive);
+				}
+				else if(!newlyActive.isAperiodic() || newlyActive.isServerTask())
+				{
+					activePeriodicInstances.add(newlyActive);
+				}
+				
+			}
+			
+			
+			Collections.sort(activePeriodicInstances, new TaskInstanceComparator());
+			
 			update();
 		}
 	}
@@ -41,6 +65,44 @@ public class RMSScheduler
 	{
 		//Finally increment the time
 		currentTime++;
+	}
+	
+	
+	/**
+	 * A comparator to be used in sorting active tasks by period,
+	 * as RMS prioritizes task instances by smallest period.
+	 *
+	 */
+	private class TaskInstanceComparator implements Comparator<TaskInstance>
+	{
+		
+		public TaskInstanceComparator()
+		{
+			
+		}
+		
+		
+		@Override
+		public int compare(TaskInstance instance1, TaskInstance instance2)
+		{
+			int comparison = 0;
+			
+			if(instance1.getPeriod() > instance2.getPeriod())
+			{
+				comparison = 1;
+			}
+			if(instance1.getPeriod() == instance2.getPeriod())
+			{
+				comparison = 0;
+			}
+			if(instance1.getPeriod() < instance2.getPeriod())
+			{
+				comparison = -1;
+			}
+			
+			return comparison;
+		}
+		
 	}
 	
 }

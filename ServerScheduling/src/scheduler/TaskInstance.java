@@ -1,5 +1,7 @@
 package scheduler;
 
+import java.util.Comparator;
+
 public class TaskInstance extends Task
 {
 	
@@ -14,9 +16,16 @@ public class TaskInstance extends Task
 	public TaskInstance(int per, int compTime, int arrival, boolean server, int instance)
 	{
 		super(per, compTime, server);
+		arrivalTime = arrival;
 		taskInstance = instance;
 	}
 
+	
+	public int getArrivalTime()
+	{
+		return arrivalTime;
+	}
+	
 	public int getStartTime() {
 		return startTime;
 	}

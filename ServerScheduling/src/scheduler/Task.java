@@ -35,6 +35,16 @@ public class Task
 		return isServerTask;
 	}
 	
+	public int getPeriod()
+	{
+		return period;
+	}
+	
+	public int getCompTime()
+	{
+		return exeTime;
+	}
+	
 	public String toString()
 	{
 		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + " isServerTask: " + isServerTask;
@@ -46,7 +56,7 @@ public class Task
 		numInstances++;
 		if(isAperiodic())
 		{
-			return new TaskInstance(period, exeTime, arrivalTime, isServerTask, numInstances);
+			return new TaskInstance(period, exeTime, newArrival, isServerTask, numInstances);
 		}
 		else
 		{

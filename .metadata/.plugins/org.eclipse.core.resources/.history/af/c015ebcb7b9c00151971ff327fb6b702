@@ -29,17 +29,13 @@ public class ServerScheduler {
             		case "S":
             			line = bReader.readLine();
             			params = line.split(" ");
-            			taskList.add(new Task(Integer.parseInt(params[1]), Integer.parseInt(params[0]), 0, true));
+            			list.add(new Task(params[1], params[0], ))
             			break;	
                 	case "P":
-            			line = bReader.readLine();
-            			params = line.split(" ");
-            			taskList.add(new Task(Integer.parseInt(params[1]), Integer.parseInt(params[0]), 0, false));
+                		
                 		break;
                 	case "A":
-            			line = bReader.readLine();
-            			params = line.split(" ");
-            			taskList.add(new Task(0, Integer.parseInt(params[0]), Integer.parseInt(params[1]), false));
+            		
                 		break;
                 	default:
                 		break;
@@ -57,12 +53,6 @@ public class ServerScheduler {
         {
             System.out.println("Error reading file: " + file);       
              ex.printStackTrace();
-        }
-        
-        //Now do something with the task list
-        for(int i=0;i<taskList.size();i++)
-        {
-        	System.out.println(taskList.get(i).toString());
         }
 
 	}

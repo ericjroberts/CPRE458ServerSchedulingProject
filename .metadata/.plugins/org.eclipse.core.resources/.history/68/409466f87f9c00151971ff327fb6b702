@@ -38,6 +38,7 @@ public class Task
 	
 	public String toString()
 	{
+		System.out.print("Period: " + period + " Execution time: " + exeTime + " Arrival time: " + arrivalTime + " isServerTask: " + isServerTask);
 		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + arrivalTime + " isServerTask: " + isServerTask;
 	}
 }

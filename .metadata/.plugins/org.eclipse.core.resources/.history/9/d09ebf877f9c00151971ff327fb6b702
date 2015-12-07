@@ -35,9 +35,4 @@ public class Task
 	{
 		return isServerTask;
 	}
-	
-	public String toString()
-	{
-		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + arrivalTime + " isServerTask: " + isServerTask;
-	}
 }

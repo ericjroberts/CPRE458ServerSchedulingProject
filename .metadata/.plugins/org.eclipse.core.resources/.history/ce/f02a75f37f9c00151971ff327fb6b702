@@ -60,10 +60,6 @@ public class ServerScheduler {
         }
         
         //Now do something with the task list
-        for(int i=0;i<taskList.size();i++)
-        {
-        	System.out.println(taskList.get(i).toString());
-        }
 
 	}
 

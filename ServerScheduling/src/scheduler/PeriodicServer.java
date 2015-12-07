@@ -16,9 +16,9 @@ public abstract class PeriodicServer
 	
 	//Given the list of arrived aperiodic tasks
 	//Should return the list of tasks to be run for the server time
-	public ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> list)
+	public ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> activePList, ArrayList<TaskInstance> activeAPList)
 	{
-		if(list.size() == 0)
+		if(activeAPList.size() == 0)
 		{
 			return null;
 		}
@@ -26,21 +26,18 @@ public abstract class PeriodicServer
 		int sum=0;
 		ArrayList<TaskInstance> toRun = new ArrayList<TaskInstance>();
 		
-		for(int i=0;i<list.size();i++)
+		for(int i=0;i<activeAPList.size();i++)
 		{
-			sum+=list.get(i).getCompTimeRemaining();
+			toRun.add(activeAPList.get(i));
+			sum+=activeAPList.get(i).getCompTimeRemaining();
 			//Task time less than allocatable server time
-			if(sum <= totalCompTime)
+			if(sum >= totalCompTime)
 			{
-				toRun.add(list.get(i));
-			}
-			else
-			{
-				i=list.size();
+				i=activeAPList.size();
 			}
 		}
 		return toRun;
 	}
 	
-	public abstract void update(ArrayList<TaskInstance> list);
+	public abstract void update(ArrayList<TaskInstance> activePList, ArrayList<TaskInstance> activeAPList, int instanceNum, int compTimeleft);
 }

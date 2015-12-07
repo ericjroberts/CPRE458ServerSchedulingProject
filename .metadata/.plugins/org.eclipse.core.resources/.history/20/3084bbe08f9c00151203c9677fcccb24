@@ -13,7 +13,7 @@ public class ServerScheduler
 	public static void main(String[] args) 
 	{
 		//Read in task set. Make a list of tasks
-		ArrayList<Task> taskList = getTaskSetFromFile("tastSet1.txt");
+		ArrayList<Task> taskSet = getTaskSetFromFile("tastSet1.txt");
         
         //Now do something with the task list
         for(int i=0;i<taskList.size();i++)

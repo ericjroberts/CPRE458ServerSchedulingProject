@@ -37,3 +37,24 @@ ehthumbs.db
 Thumbs.db
 
 .metadata/
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+.metadata/.plugins/org.eclipse.core.resources/.projects/ServerScheduling/.markers.snap
+.metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+.metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.tis
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.prx
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.frq
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fdt
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fdx
+.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.nrm
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+.metadata/.log
+.metadata/.log
+.metadata/.log
+*.log
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+.metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt

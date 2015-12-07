@@ -2,6 +2,7 @@ package scheduler;
 
 public class Task 
 {
+	String label;
 	int period;
 	int exeTime;
 	boolean isServerTask;
@@ -17,8 +18,9 @@ public class Task
 	 * Arrival time. Set if aperiodic, 0 otherwise
 	 * @param server
 	 */
-	public Task(int per, int compTime, boolean server)
+	public Task(String label, int per, int compTime, boolean server)
 	{
+		this.label = label;
 		period = per;
 		exeTime = compTime;
 		isServerTask = server;
@@ -56,11 +58,11 @@ public class Task
 		numInstances++;
 		if(isAperiodic())
 		{
-			return new TaskInstance(period, exeTime, newArrival, isServerTask, numInstances);
+			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances);
 		}
 		else
 		{
-			return new TaskInstance(period, exeTime, newArrival, isServerTask, numInstances);
+			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances);
 		}	
 		
 

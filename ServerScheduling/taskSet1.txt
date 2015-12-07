@@ -1,12 +1,10 @@
 P
-1 4
+Task1 1 4
 P
-2 6
-S
-2 5
+Task2 2 6
 A
-2 2
+Task3 2 2
 A
-1 8
+Task4 1 8
 A
-2 13
+Task5 2 13

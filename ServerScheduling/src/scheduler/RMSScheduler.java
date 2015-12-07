@@ -52,7 +52,7 @@ public class RMSScheduler
 			}
 			
 			
-			Collections.sort(activePeriodicInstances, new TaskInstanceComparator());
+			Collections.sort(activePeriodicInstances, TaskInstance.getPeriodComparator());
 			
 			update();
 		}
@@ -68,41 +68,5 @@ public class RMSScheduler
 	}
 	
 	
-	/**
-	 * A comparator to be used in sorting active tasks by period,
-	 * as RMS prioritizes task instances by smallest period.
-	 *
-	 */
-	private class TaskInstanceComparator implements Comparator<TaskInstance>
-	{
-		
-		public TaskInstanceComparator()
-		{
-			
-		}
-		
-		
-		@Override
-		public int compare(TaskInstance instance1, TaskInstance instance2)
-		{
-			int comparison = 0;
-			
-			if(instance1.getPeriod() > instance2.getPeriod())
-			{
-				comparison = 1;
-			}
-			if(instance1.getPeriod() == instance2.getPeriod())
-			{
-				comparison = 0;
-			}
-			if(instance1.getPeriod() < instance2.getPeriod())
-			{
-				comparison = -1;
-			}
-			
-			return comparison;
-		}
-		
-	}
 	
 }

@@ -5,6 +5,7 @@ public class Task
 	int period;
 	int exeTime;
 	boolean isServerTask;
+	int numInstances = 0;
 
 	/**
 	 * 
@@ -37,5 +38,21 @@ public class Task
 	public String toString()
 	{
 		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + " isServerTask: " + isServerTask;
+	}
+	
+	public TaskInstance generateInstance()
+	{
+		int newArrival = numInstances * period; 
+		numInstances++;
+		if(isAperiodic())
+		{
+			return new TaskInstance(period, exeTime, arrivalTime, isServerTask, numInstances);
+		}
+		else
+		{
+			return new TaskInstance(period, exeTime, newArrival, isServerTask, numInstances);
+		}	
+		
+
 	}
 }

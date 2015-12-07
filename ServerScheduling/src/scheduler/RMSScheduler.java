@@ -63,6 +63,8 @@ public class RMSScheduler
 	 */
 	private void update()
 	{
+		//decrease currently running's remaining execution time by 1
+		executing.setCompTimeRemaining(executing.getCompTimeRemaining() - 1);
 		//Finally increment the time
 		currentTime++;
 	}

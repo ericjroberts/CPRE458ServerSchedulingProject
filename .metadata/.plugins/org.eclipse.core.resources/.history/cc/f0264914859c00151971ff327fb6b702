@@ -1,0 +1,8 @@
+package scheduler;
+
+import java.util.ArrayList;
+
+public abstract class PeriodicServer 
+{
+	public abstract ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> list);
+}

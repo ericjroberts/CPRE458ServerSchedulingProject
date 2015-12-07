@@ -12,16 +12,12 @@ public class Polling extends PeriodicServer
 	@Override
 	public ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> list) {
 		// TODO Auto-generated method stub
-		if(list.size() == 0)
-		{
-			return null;
-		}
-		
-		return list;
+		return null;
 	}
 
 	@Override
 	public ArrayList<TaskInstance> update(ArrayList<TaskInstance> list) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

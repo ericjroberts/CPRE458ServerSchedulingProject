@@ -7,7 +7,7 @@ public abstract class PeriodicServer
 	
 	int totalCompTime;
 	
-	protected PeriodicServer(int serverTime)
+	private PeriodicServer(int serverTime)
 	{
 		totalCompTime = serverTime;
 	}

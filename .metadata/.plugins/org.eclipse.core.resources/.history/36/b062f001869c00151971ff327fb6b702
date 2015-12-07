@@ -7,15 +7,11 @@ public abstract class PeriodicServer
 	
 	int totalCompTime;
 	
-	protected PeriodicServer(int serverTime)
+	private PeriodicServer(int serverTime)
 	{
 		totalCompTime = serverTime;
 	}
-	
-	//Given the list of arrived aperiodic tasks
-	//Should return the list of tasks to be run for the server time
+	//Should return the lists
 	public abstract ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> list);
-	
-	//Returns a task list for tasks to run in cases like deferred server
 	public abstract ArrayList<TaskInstance> update(ArrayList<TaskInstance> list);
 }

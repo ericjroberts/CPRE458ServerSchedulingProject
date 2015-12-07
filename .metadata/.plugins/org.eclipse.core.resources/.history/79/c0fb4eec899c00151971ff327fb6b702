@@ -7,7 +7,6 @@ public class TaskInstance extends Task
 	int endTime;		
 	int compTimeRemaining;
 	int taskInstance;
-	boolean active;
 	
 	public TaskInstance(int per, int compTime, int arrival, boolean server, int instance)
 	{

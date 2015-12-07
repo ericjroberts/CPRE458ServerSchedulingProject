@@ -10,7 +10,7 @@ public class Polling extends PeriodicServer
 	}
 
 	@Override
-	public void update(ArrayList<TaskInstance> list) 
+	public void update(ArrayList<TaskInstance> activePList, ArrayList<TaskInstance> activeAPList, int instanceNum, int compTimeleft) 
 	{
 		//Polling doesn't do anything here
 	}

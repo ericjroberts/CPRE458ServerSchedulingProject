@@ -6,28 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ServerScheduler 
-{
+public class ServerScheduler {
 	
 	
 	public static void main(String[] args) 
 	{
 		//Read in task set. Make a list of tasks
-		ArrayList<Task> taskList = getTaskSetFromFile("tastSet1.txt");
-        
-        //Now do something with the task list
-        for(int i=0;i<taskList.size();i++)
-        {
-        	System.out.println(taskList.get(i).toString());
-        }
-
-	}
-	
-	private static ArrayList<Task> getTaskSetFromFile(String fileName)
-	{
 		String line, file;
 		ArrayList<Task> taskList = new ArrayList<Task>();
-		file = fileName;
+		file = "taskSet1.txt";
         try {
             FileReader fReader = new FileReader(file);
 
@@ -59,20 +46,25 @@ public class ServerScheduler
                 }
             }   
 
-            bReader.close();
+            bReader.close();         
         }
-        catch(FileNotFoundException ex)
+        catch(FileNotFoundException ex) 
         {
-        	System.out.println("File not found: " + file);   
-        	ex.printStackTrace();
-	    }
-	    catch(IOException ex)
-	    {
-	    	System.out.println("Error reading file: " + file);       
-	    	ex.printStackTrace();
-	    }
+            System.out.println("File not found: " + file);   
+            ex.printStackTrace();
+        }
+        catch(IOException ex)
+        {
+            System.out.println("Error reading file: " + file);       
+             ex.printStackTrace();
+        }
         
-        return taskList;
+        //Now do something with the task list
+        for(int i=0;i<taskList.size();i++)
+        {
+        	System.out.println(taskList.get(i).toString());
+        }
+
 	}
 
 }

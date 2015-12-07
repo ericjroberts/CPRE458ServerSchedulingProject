@@ -3,15 +3,17 @@ package scheduler;
 public class TaskInstance extends Task
 {
 	
+	int arrivalTime;
 	int startTime;
-	int endTime;		
+	int endTime;
+	int deadline;
 	int compTimeRemaining;
 	int taskInstance;
 	boolean active;
 	
 	public TaskInstance(int per, int compTime, int arrival, boolean server, int instance)
 	{
-		super(per, compTime, arrival, server);
+		super(per, compTime, server);
 		taskInstance = instance;
 	}
 
@@ -29,6 +31,16 @@ public class TaskInstance extends Task
 
 	public void setEndTime(int endTime) {
 		this.endTime = endTime;
+	}
+	
+	public int getDeadline()
+	{
+		return deadline;
+	}
+	
+	public void setDeadline(int deadline)
+	{
+		this.deadline = deadline;
 	}
 
 	public int getCompTimeRemaining() {

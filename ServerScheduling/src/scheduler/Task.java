@@ -4,7 +4,6 @@ public class Task
 {
 	int period;
 	int exeTime;
-	int arrivalTime;
 	boolean isServerTask;
 
 	/**
@@ -17,11 +16,10 @@ public class Task
 	 * Arrival time. Set if aperiodic, 0 otherwise
 	 * @param server
 	 */
-	public Task(int per, int compTime, int arrival, boolean server)
+	public Task(int per, int compTime, boolean server)
 	{
 		period = per;
 		exeTime = compTime;
-		arrivalTime = arrival;
 		isServerTask = server;
 	}
 	
@@ -38,6 +36,6 @@ public class Task
 	
 	public String toString()
 	{
-		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + arrivalTime + " isServerTask: " + isServerTask;
+		return "Period: " + period + " Execution time: " + exeTime + " Arrival time: " + " isServerTask: " + isServerTask;
 	}
 }

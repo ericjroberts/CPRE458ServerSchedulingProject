@@ -37,6 +37,7 @@ public class ServerScheduler
 		String line, file;
 		ArrayList<Task> taskList = new ArrayList<Task>();
 		ArrayList<TaskInstance> instances = new ArrayList<TaskInstance>();
+		ArrayList<Integer> periods = new ArrayList<Integer>();
 		file = fileName;
         try {
             FileReader fReader = new FileReader(file);
@@ -81,6 +82,17 @@ public class ServerScheduler
         //Generating instances to be scheduled
         taskList.add(new Task("Server", period, compTime, true));
         
+        for(int i=0;i<taskList.size();i++)
+        {
+        	if(taskList.get(i).period != 0)
+        	{
+        		periods.add(taskList.get(i).period);
+        	}      	
+        }
+        
+        totalTime = findLcm(periods);
+        System.out.println("LCM: " + totalTime);
+        
         for(Task T: taskList)
         {
         	int numInstances = (int) Math.ceil(totalTime/T.getPeriod());
@@ -101,4 +113,28 @@ public class ServerScheduler
         return instanceQue;
 	}
 
+	private static int findLcm(ArrayList<Integer> periods)
+	{
+		int temp = periods.get(0).intValue();
+	    for(int i=1;i<periods.size();i++)
+	    {
+	    	temp = (temp * (periods.get(i).intValue() / findGcd(temp, periods.get(i).intValue())));
+	    }
+	    return temp;
+	}
+	
+	private static int findGcd(int num1, int num2)
+	{
+		int first = num1, second = num2;
+		int tmp;
+		
+	    while (second > 0)
+	    {
+	        tmp = second;
+	        second = first % second; 
+	        first = tmp;
+	    }
+	    return first;
+	}
+	
 }

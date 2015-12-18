@@ -12,6 +12,7 @@ public class RMSScheduler
 	private ArrayList<TaskInstance> activePeriodicInstances;
 	private ArrayList<TaskInstance> activeAperiodicInstances;
 	private ArrayList<TaskInstance> completedInstances;
+	private ArrayList<TaskInstance> missedInstances;
 	private ArrayList<Preemption> preemptionList;
 	private TaskInstance executing;
 	private int totalTime;
@@ -27,6 +28,7 @@ public class RMSScheduler
 		activePeriodicInstances = new ArrayList<TaskInstance>();
 		activeAperiodicInstances = new ArrayList<TaskInstance>();
 		completedInstances = new ArrayList<TaskInstance>();
+		missedInstances = new ArrayList<TaskInstance>();
 		preemptionList = new ArrayList<Preemption>();
 		executing = null;
 		currentTime = 0;
@@ -46,6 +48,7 @@ public class RMSScheduler
 				{
 					activeAperiodicInstances.add(newlyActive);
 				}
+			
 				else if(!newlyActive.isAperiodic() || newlyActive.isServerTask())
 				{
 					activePeriodicInstances.add(newlyActive);
@@ -53,8 +56,64 @@ public class RMSScheduler
 				
 			}
 			
+			//Check if the current task is done
+			if(executing != null && executing.getCompTimeRemaining() <= 0)
+			{
+				executing.setEndTime(currentTime);
+				addCompleted(executing);
+				executing = null;
+			}
 			
-			Collections.sort(activePeriodicInstances, TaskInstance.getPeriodComparator());
+			//Check for missed deadlines
+			if(executing != null && executing.getDeadline() < currentTime)
+			{
+				addMissed(executing);
+				executing = null;
+			}
+			
+			if(activePeriodicInstances.size() > 0)
+			{
+				for(int i=0;i<activePeriodicInstances.size();i++)
+				{
+					//Missed the deadline
+					if(activePeriodicInstances.get(i).getDeadline() < currentTime)
+					{
+						addMissed(activePeriodicInstances.remove(i));
+						i--;//ArrayList shifts everything
+					}
+				}
+			}		
+			
+			//If there are still tasks
+			if(activePeriodicInstances.size() > 0)
+			{
+				Collections.sort(activePeriodicInstances, TaskInstance.getPeriodComparator());
+				//If nothing is running
+				//Should be highest priority since activePeriodicInstances is sorted 
+				if(executing == null)
+				{
+					executing = activePeriodicInstances.remove(0);	
+					
+				}	
+				//Preemption
+				else if(activePeriodicInstances.get(0).getPeriod() < executing.getPeriod())
+				{
+					TaskInstance temp = activePeriodicInstances.remove(0);
+					addPreemption(executing, temp, currentTime);
+					activePeriodicInstances.add(executing);
+					executing = temp;		
+				}
+				//Continue executing task otherwise
+			}
+			
+			if(executing.isServerTask)
+			{
+				//Maintain AP task list
+				//Here we should do aperiodic stuff
+				//Have to do some of the same stuff from here
+				//Decrement aperiodic task in server. Switch priority or update server comp time remaining
+				server.doServer(this, activeAperiodicInstances, executing, currentTime);
+			}
 			
 			update();
 		}
@@ -65,23 +124,42 @@ public class RMSScheduler
 	 */
 	private void update()
 	{
-		if(activePeriodicInstances.get(0).getPeriod() < executing.getPeriod())
+		if(executing != null)
 		{
-			TaskInstance temp = activePeriodicInstances.remove(0);
-			preemptionList.add(new Preemption(temp, executing, currentTime));
-			activePeriodicInstances.add(executing);
-			executing = temp;
+			//decrease currently running's remaining execution time by 1
+			executing.setCompTimeRemaining(executing.getCompTimeRemaining() - 1);
 			
-			
-			
+			if(executing.getStartTime() == 0)
+			{
+				executing.setStartTime(currentTime);
+			}
 		}
-		//decrease currently running's remaining execution time by 1
-		executing.setCompTimeRemaining(executing.getCompTimeRemaining() - 1);
-		
+				
 		//Finally increment the time
 		currentTime++;
 	}
 	
+	public void addPreemption(TaskInstance preempted, TaskInstance preempting, int time)
+	{
+		preemptionList.add(new Preemption(preempted, preempting, time));
+	}
+	
+	public void addCompleted(TaskInstance completed)
+	{
+		completed.setEndTime(currentTime);
+		completedInstances.add(completed);
+	}
+	
+	public void addMissed(TaskInstance missed)
+	{
+		missed.setMissDeadiline(true);
+		missedInstances.add(missed);
+	}
+	
+	public void addPeriodicTask(TaskInstance toAdd)
+	{
+		activePeriodicInstances.add(toAdd);
+	}
 	
 	private class Preemption
 	{

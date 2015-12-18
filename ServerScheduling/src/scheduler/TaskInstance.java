@@ -12,14 +12,39 @@ public class TaskInstance extends Task
 	int compTimeRemaining;
 	int taskInstance;
 	boolean active;
+	boolean missedDeadline;
+	boolean wasDeferred;
 	
 	public TaskInstance(String label, int per, int compTime, int arrival, boolean server, int instance)
 	{
 		super(label, per, compTime, server);
 		arrivalTime = arrival;
 		taskInstance = instance;
+		startTime = 0;
+		endTime = 0;
+		missedDeadline = false;
+		wasDeferred = false;
 	}
 
+	public boolean didMissDeadiline()
+	{
+		return missedDeadline;
+	}
+	
+	public void setMissDeadiline(boolean missed)
+	{
+		missedDeadline = missed;
+	}
+	
+	public boolean wasDeferred()
+	{
+		return wasDeferred;
+	}
+	
+	public void setwasDeferred(boolean deferred)
+	{
+		wasDeferred = deferred;
+	}
 	
 	public int getArrivalTime()
 	{

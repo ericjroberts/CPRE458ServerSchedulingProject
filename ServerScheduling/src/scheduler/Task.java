@@ -37,6 +37,11 @@ public class Task
 		return isServerTask;
 	}
 	
+	public String getLabel()
+	{
+		return label;
+	}
+	
 	public int getPeriod()
 	{
 		return period;

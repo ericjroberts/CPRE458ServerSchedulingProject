@@ -1,43 +1,97 @@
 package scheduler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class PeriodicServer 
 {
 	
 	int totalCompTime;
 	int period;
+	protected TaskInstance apExecuting;
 	
 	protected PeriodicServer(int serverTime, int per)
 	{
 		totalCompTime = serverTime;
 		period = per;
+		apExecuting = null;
 	}
 	
 	//Given the list of arrived aperiodic tasks
 	//Should return the list of tasks to be run for the server time
-	public ArrayList<TaskInstance> doServer(ArrayList<TaskInstance> activePList, ArrayList<TaskInstance> activeAPList)
+	public void doServer(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
 	{
-		if(activeAPList.size() == 0)
+		//Check if the current task is done
+		if(apExecuting != null && apExecuting.getCompTimeRemaining() <= 0)
 		{
-			return null;
+			sched.addCompleted(apExecuting);
+			apExecuting = null;
 		}
 		
-		int sum=0;
-		ArrayList<TaskInstance> toRun = new ArrayList<TaskInstance>();
-		
-		for(int i=0;i<activeAPList.size();i++)
+		//Check for missed deadlines
+		if(apExecuting != null && apExecuting.getDeadline() < currentTime)
 		{
-			toRun.add(activeAPList.get(i));
-			sum+=activeAPList.get(i).getCompTimeRemaining();
-			//Task time less than allocatable server time
-			if(sum >= totalCompTime)
+			sched.addMissed(apExecuting);
+			apExecuting = null;
+		}
+		
+		if(activeAPList.size() > 0)
+		{
+			for(int i=0;i<activeAPList.size();i++)
 			{
-				i=activeAPList.size();
+				//Missed the deadline
+				if(activeAPList.get(i).getDeadline() < currentTime)
+				{
+					sched.addMissed(activeAPList.remove(i));
+					i--;//ArrayList shifts everything
+				}
 			}
 		}
-		return toRun;
+		
+		//If there are still tasks
+		if(activeAPList.size() > 0)
+		{
+			Collections.sort(activeAPList, TaskInstance.getArrivalTimeComparator());
+			//If nothing is running
+			//Should be highest priority since activePeriodicInstances is sorted 
+			if(apExecuting == null)
+			{
+				apExecuting = activeAPList.remove(0);	
+				
+			}	
+			//Preemption
+			else if(activeAPList.get(0).getArrivalTime() < apExecuting.getArrivalTime())
+			{
+				TaskInstance temp = activeAPList.remove(0);
+				sched.addPreemption(apExecuting, temp, currentTime);
+				activeAPList.add(apExecuting);
+				apExecuting = temp;		
+			}
+			//Continue executing task otherwise
+		}
+		//Do so,ething if there are no tasks. Determined by subclasses
+		else if(activeAPList.size() == 0 && apExecuting == null)
+		{
+			doServerTask(sched, activeAPList, serverT, currentTime);
+		}
+		
+		//Update at the end
+		update(activeAPList, currentTime);
 	}
 	
-	public abstract void update(ArrayList<TaskInstance> activePList, ArrayList<TaskInstance> activeAPList, int instanceNum, int compTimeleft);
+	private void update(ArrayList<TaskInstance> activeAPList, int currentTime)
+	{
+		if(apExecuting != null)
+		{
+			//decrease currently running's remaining execution time by 1
+			apExecuting.setCompTimeRemaining(apExecuting.getCompTimeRemaining() - 1);
+			
+			if(apExecuting.getStartTime() == 0)
+			{
+				apExecuting.setStartTime(currentTime);
+			}
+		}
+	}
+	
+	protected abstract void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime);
 }

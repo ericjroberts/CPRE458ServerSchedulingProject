@@ -40,7 +40,7 @@ public class RMSScheduler
 	{
 		while(currentTime < totalTime)
 		{
-			while(instances.peek().getArrivalTime() == currentTime)
+			while(instances.peek() != null && instances.peek().getArrivalTime() == currentTime)
 			{
 				TaskInstance newlyActive = instances.poll();
 				
@@ -65,7 +65,7 @@ public class RMSScheduler
 			}
 			
 			//Check for missed deadlines
-			if(executing != null && executing.getDeadline() < currentTime)
+			if(executing != null && executing.getDeadline() <= currentTime)
 			{
 				addMissed(executing);
 				executing = null;
@@ -76,7 +76,7 @@ public class RMSScheduler
 				for(int i=0;i<activePeriodicInstances.size();i++)
 				{
 					//Missed the deadline
-					if(activePeriodicInstances.get(i).getDeadline() < currentTime)
+					if(activePeriodicInstances.get(i).getDeadline() <= currentTime)
 					{
 						addMissed(activePeriodicInstances.remove(i));
 						i--;//ArrayList shifts everything
@@ -85,28 +85,10 @@ public class RMSScheduler
 			}		
 			
 			//If there are still tasks
-			if(activePeriodicInstances.size() > 0)
-			{
-				Collections.sort(activePeriodicInstances, TaskInstance.getPeriodComparator());
-				//If nothing is running
-				//Should be highest priority since activePeriodicInstances is sorted 
-				if(executing == null)
-				{
-					executing = activePeriodicInstances.remove(0);	
-					
-				}	
-				//Preemption
-				else if(activePeriodicInstances.get(0).getPeriod() < executing.getPeriod())
-				{
-					TaskInstance temp = activePeriodicInstances.remove(0);
-					addPreemption(executing, temp, currentTime);
-					activePeriodicInstances.add(executing);
-					executing = temp;		
-				}
-				//Continue executing task otherwise
-			}
+			schedule();	
 			
-			if(executing.isServerTask)
+			
+			if(executing != null && executing.isServerTask)
 			{
 				//Maintain AP task list
 				//Here we should do aperiodic stuff
@@ -117,6 +99,29 @@ public class RMSScheduler
 			
 			update();
 		}
+	}
+	
+	private void schedule()
+	{
+		if(activePeriodicInstances.size() > 0)
+		{
+			Collections.sort(activePeriodicInstances, TaskInstance.getPeriodComparator());
+			//If nothing is running
+			//Should be highest priority since activePeriodicInstances is sorted 
+			if(executing == null)
+			{
+				executing = activePeriodicInstances.remove(0);	
+				
+			}	
+			//Preemption
+			else if(activePeriodicInstances.get(0).getPeriod() < executing.getPeriod())
+			{
+				TaskInstance temp = activePeriodicInstances.remove(0);
+				addPreemption(executing, temp, currentTime);
+				activePeriodicInstances.add(executing);
+				executing = temp;		
+			}
+		}			
 	}
 	
 	/**
@@ -137,6 +142,37 @@ public class RMSScheduler
 				
 		//Finally increment the time
 		currentTime++;
+	}
+	
+	/**
+	 * Do this when the server has nothing to do. Pick something else to run
+	 */
+	public void reScheduleServer()
+	{
+		//Kill the server task
+		executing.setwasDeferred(true);
+		addCompleted(executing);
+		executing = null;
+		schedule();
+	}
+	
+	public int exchangePriority(TaskInstance server)
+	{
+		int priority;
+		
+		if(activePeriodicInstances.size() > 0)
+		{
+			priority = activePeriodicInstances.get(0).getPeriod();
+			activePeriodicInstances.get(0).setEffectivePriority(server.getPeriod());
+			
+		}
+		//No priority exchange happened
+		else
+		{
+			priority = server.getPeriod();
+		}
+		
+		return priority;
 	}
 	
 	public void addPreemption(TaskInstance preempted, TaskInstance preempting, int time)

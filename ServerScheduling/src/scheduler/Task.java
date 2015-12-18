@@ -63,11 +63,11 @@ public class Task
 		numInstances++;
 		if(isAperiodic())
 		{
-			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances);
+			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances, (newArrival + period));
 		}
 		else
 		{
-			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances);
+			return new TaskInstance(label, period, exeTime, newArrival, isServerTask, numInstances, (newArrival + period));
 		}	
 		
 

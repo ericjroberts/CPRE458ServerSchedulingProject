@@ -58,7 +58,7 @@ public class ServerScheduler
                 	case "A":
             			line = bReader.readLine();
             			params = line.split(" ");
-            			instances.add(new TaskInstance(params[0], 0, Integer.parseInt(params[1]), Integer.parseInt(params[2]), false, 0));
+            			instances.add(new TaskInstance(params[0], 0, Integer.parseInt(params[1]), Integer.parseInt(params[2]), false, 0, Integer.parseInt(params[3])));
                 		break;
                 	default:
                 		break;

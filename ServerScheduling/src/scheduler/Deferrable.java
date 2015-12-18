@@ -10,12 +10,10 @@ public class Deferrable extends PeriodicServer
 		super(serverTime, per);	
 	}
 	
-	protected void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
+	public void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
 	{
-		//Kill this instance and make a new one
-		serverT.setCompTimeRemaining(0);
-		serverT.setwasDeferred(true);
-		sched.addPeriodicTask(new TaskInstance(serverT.getLabel(), serverT.getPeriod(), serverT.getCompTimeRemaining(), currentTime, true, serverT.getTaskInstance()));
+		//Make a new server task
+		sched.addPeriodicTask(new TaskInstance(serverT.getLabel() + " Deferred", serverT.getPeriod(), serverT.getCompTimeRemaining(), currentTime, true, serverT.getTaskInstance(), serverT.getDeadline()));
 	}
 	
 }

@@ -11,21 +11,35 @@ public class TaskInstance extends Task
 	int deadline;
 	int compTimeRemaining;
 	int taskInstance;
+	int effectivePriority;
 	boolean active;
 	boolean missedDeadline;
 	boolean wasDeferred;
 	
-	public TaskInstance(String label, int per, int compTime, int arrival, boolean server, int instance)
+	public TaskInstance(String label, int per, int compTime, int arrival, boolean server, int instance, int deadlineTime)
 	{
 		super(label, per, compTime, server);
 		arrivalTime = arrival;
 		taskInstance = instance;
 		startTime = 0;
 		endTime = 0;
+		deadline = deadlineTime;
+		effectivePriority = per;
 		missedDeadline = false;
 		wasDeferred = false;
 	}
 
+	public int getEffectivePriority()
+	{
+		return effectivePriority;
+	}
+	
+	public void setEffectivePriority(int period)
+	{
+		effectivePriority = period;
+	}
+	
+	
 	public boolean didMissDeadiline()
 	{
 		return missedDeadline;
@@ -107,8 +121,8 @@ public class TaskInstance extends Task
 		public int compare(TaskInstance instance1, TaskInstance instance2)
 		{
 			int comparison = 0;
-			int firstPeriod = instance1.getPeriod();
-			int secondPeriod = instance2.getPeriod();
+			int firstPeriod = instance1.getEffectivePriority();
+			int secondPeriod = instance2.getEffectivePriority();
 			
 			if(firstPeriod > secondPeriod)
 			{

@@ -10,9 +10,8 @@ public class Polling extends PeriodicServer
 		super(serverTime, per);
 	}
 	
-	protected void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
+	public void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
 	{
-		//That's all polling does here
-		serverT.setCompTimeRemaining(0);
+		//Does nothing here
 	}
 }

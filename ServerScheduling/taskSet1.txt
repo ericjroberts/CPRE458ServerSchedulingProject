@@ -3,8 +3,8 @@ Task1 1 4
 P
 Task2 2 6
 A
-Task3 2 2
+Task3 2 2 15
 A
-Task4 1 8
+Task4 1 8 20
 A
-Task5 2 13
+Task5 2 13 25

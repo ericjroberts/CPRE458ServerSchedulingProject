@@ -17,6 +17,18 @@ public abstract class PeriodicServer
 		apExecuting = null;
 	}
 	
+	public boolean isExecuting()
+	{
+		if(apExecuting == null)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
 	//Given the list of arrived aperiodic tasks
 	//Should return the list of tasks to be run for the server time
 	public void doServer(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
@@ -29,7 +41,7 @@ public abstract class PeriodicServer
 		}
 		
 		//Check for missed deadlines
-		if(apExecuting != null && apExecuting.getDeadline() < currentTime)
+		if(apExecuting != null && apExecuting.getDeadline() <= currentTime)
 		{
 			sched.addMissed(apExecuting);
 			apExecuting = null;
@@ -40,7 +52,7 @@ public abstract class PeriodicServer
 			for(int i=0;i<activeAPList.size();i++)
 			{
 				//Missed the deadline
-				if(activeAPList.get(i).getDeadline() < currentTime)
+				if(activeAPList.get(i).getDeadline() <= currentTime)
 				{
 					sched.addMissed(activeAPList.remove(i));
 					i--;//ArrayList shifts everything
@@ -69,10 +81,13 @@ public abstract class PeriodicServer
 			}
 			//Continue executing task otherwise
 		}
-		//Do so,ething if there are no tasks. Determined by subclasses
+		//Do something if there are no tasks. Determined by subclasses
 		else if(activeAPList.size() == 0 && apExecuting == null)
 		{
-			doServerTask(sched, activeAPList, serverT, currentTime);
+			//Current server task is going to get removed, we just need its data
+			TaskInstance temp = serverT;
+			sched.reScheduleServer();
+			doServerTask(sched, activeAPList, temp, currentTime);
 		}
 		
 		//Update at the end
@@ -93,5 +108,5 @@ public abstract class PeriodicServer
 		}
 	}
 	
-	protected abstract void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime);
+	public abstract void doServerTask(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime);
 }

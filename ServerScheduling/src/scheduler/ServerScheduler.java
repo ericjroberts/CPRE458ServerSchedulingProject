@@ -32,6 +32,7 @@ public class ServerScheduler
 		priorityExchangeServerScheduling.run();
 		
 		pollingServerScheduling.printResults();
+		System.out.println(pollingServerScheduling.getBuiltScheduleString());
 		//deferrebleServerScheduling.printResults();
 		//priorityExchangeServerScheduling.printResults();
 	}

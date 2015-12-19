@@ -144,6 +144,15 @@ public class RMSScheduler
 			{
 				executing.setStartTime(currentTime);
 			}
+			if(executing.isServerTask())
+			{
+				//Check if the current task is done
+				if(server.getExecuting() != null && server.getExecuting().getCompTimeRemaining() <= 0)
+				{
+					addCompleted(server.getExecuting());
+					server.setExecuting(null);
+				}
+			}
 		}
 				
 		//Finally increment the time
@@ -209,13 +218,13 @@ public class RMSScheduler
 		activePeriodicInstances.add(toAdd);
 	}
 	
-<<<<<<< HEAD
+
 	/**
 	 * Records the currently executing task
 	 */
 	private void record()
 	{
-		String entry = "nothing";
+		String entry = "nothing ";
 		TaskInstance current = executing;
 		
 		if(current != null)
@@ -224,7 +233,7 @@ public class RMSScheduler
 			{
 				current = server.getExecuting();
 			}
-			entry += current.getLabel() + " " + current.getTaskInstance();
+			entry = current.getLabel() + " " + current.getTaskInstance() + " ";
 		}
 		
 		builtSchedule.add(entry);
@@ -249,8 +258,10 @@ public class RMSScheduler
 			{
 				scheduleString += "|" + i + "| " + current;
 			}
-			
+			previous = current;
 		}
+		
+		scheduleString += "|" + builtSchedule.size() + "|";
 		
 		return scheduleString;
 	}
@@ -259,7 +270,6 @@ public class RMSScheduler
 	 * This class holds information about a single preemption.
 	 *
 	 */
-=======
 	public void printResults()
 	{
 		System.out.println("Completed Instances");
@@ -270,7 +280,6 @@ public class RMSScheduler
 		}
 	}
 	
->>>>>>> 5a333ca991e9dcf562aa0db4ad432142082bea31
 	private class Preemption
 	{
 		TaskInstance preempted;

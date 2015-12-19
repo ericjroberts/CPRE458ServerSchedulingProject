@@ -1,0 +1,16 @@
+P
+Task1 1 6
+P
+Task2 2 9
+P
+Task3 2 10
+P
+Task4 3 18
+A
+Task5 2 11 26
+A
+Task6 1 38 52
+A
+Task7 4 42 60
+A
+Task7 2 72 85

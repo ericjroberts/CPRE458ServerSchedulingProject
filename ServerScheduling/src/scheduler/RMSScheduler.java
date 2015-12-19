@@ -3,6 +3,7 @@ package scheduler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Queue;
 
 public class RMSScheduler
@@ -16,6 +17,7 @@ public class RMSScheduler
 	private ArrayList<Preemption> preemptionList;
 	private TaskInstance executing;
 	private int totalTime;
+	private ArrayList<String> builtSchedule;
 	
 	int currentTime;
 	
@@ -30,6 +32,7 @@ public class RMSScheduler
 		completedInstances = new ArrayList<TaskInstance>();
 		missedInstances = new ArrayList<TaskInstance>();
 		preemptionList = new ArrayList<Preemption>();
+		builtSchedule = new ArrayList<String>();
 		executing = null;
 		currentTime = 0;
 		this.totalTime = totalTime;
@@ -96,6 +99,9 @@ public class RMSScheduler
 				//Decrement aperiodic task in server. Switch priority or update server comp time remaining
 				server.doServer(this, activeAperiodicInstances, executing, currentTime);
 			}
+			
+			//record what task is executing at the current time
+			record();
 			
 			update();
 		}
@@ -197,6 +203,55 @@ public class RMSScheduler
 		activePeriodicInstances.add(toAdd);
 	}
 	
+	/**
+	 * Records the currently executing task
+	 */
+	private void record()
+	{
+		String entry = "nothing";
+		TaskInstance current = executing;
+		
+		if(current != null)
+		{
+			if(executing.isServerTask())
+			{
+				current = server.getExecuting();
+			}
+			entry += current.getLabel() + " " + current.getTaskInstance();
+		}
+		
+		builtSchedule.add(entry);
+	}
+	
+	/**
+	 * Returns a string that has the blocked out schedule
+	 * @return
+	 */
+	public String getBuiltScheduleString()
+	{
+		String scheduleString = "";
+		String current;
+		String previous = null;
+		
+		for(int i = 0; i < builtSchedule.size(); i++)
+		{
+			current = builtSchedule.get(i);
+			
+			//if this current string is not the same task instance, only then should it put down a new time and string.
+			if(!current.equals(previous))
+			{
+				scheduleString += "|" + i + "| " + current;
+			}
+			
+		}
+		
+		return scheduleString;
+	}
+	
+	/**
+	 * This class holds information about a single preemption.
+	 *
+	 */
 	private class Preemption
 	{
 		TaskInstance preempted;

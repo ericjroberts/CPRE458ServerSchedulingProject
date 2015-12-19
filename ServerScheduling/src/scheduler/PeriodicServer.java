@@ -17,6 +17,11 @@ public abstract class PeriodicServer
 		apExecuting = null;
 	}
 	
+	public TaskInstance getExecuting()
+	{
+		return apExecuting;
+	}
+	
 	public boolean isExecuting()
 	{
 		if(apExecuting == null)

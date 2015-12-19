@@ -24,6 +24,7 @@ public class TaskInstance extends Task
 		startTime = 0;
 		endTime = 0;
 		deadline = deadlineTime;
+		compTimeRemaining = compTime;
 		effectivePriority = per;
 		missedDeadline = false;
 		wasDeferred = false;

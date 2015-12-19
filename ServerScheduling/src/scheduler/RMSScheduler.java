@@ -192,6 +192,12 @@ public class RMSScheduler
 		completedInstances.add(completed);
 	}
 	
+	public void addCompletedAtTime(TaskInstance completed, int time)
+	{
+		completed.setEndTime(time);
+		completedInstances.add(completed);
+	}
+	
 	public void addMissed(TaskInstance missed)
 	{
 		missed.setMissDeadiline(true);
@@ -203,6 +209,7 @@ public class RMSScheduler
 		activePeriodicInstances.add(toAdd);
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Records the currently executing task
 	 */
@@ -252,6 +259,18 @@ public class RMSScheduler
 	 * This class holds information about a single preemption.
 	 *
 	 */
+=======
+	public void printResults()
+	{
+		System.out.println("Completed Instances");
+		for(int i=0;i<completedInstances.size();i++)
+		{
+			System.out.println(completedInstances.get(i).getLabel() + " Instance: " + completedInstances.get(i).getTaskInstance()
+					+ " End Time: " + completedInstances.get(i).getEndTime() + " Arrival: " + completedInstances.get(i).getArrivalTime());
+		}
+	}
+	
+>>>>>>> 5a333ca991e9dcf562aa0db4ad432142082bea31
 	private class Preemption
 	{
 		TaskInstance preempted;

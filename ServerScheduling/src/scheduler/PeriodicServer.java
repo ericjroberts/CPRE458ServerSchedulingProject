@@ -37,14 +37,7 @@ public abstract class PeriodicServer
 	//Given the list of arrived aperiodic tasks
 	//Should return the list of tasks to be run for the server time
 	public void doServer(RMSScheduler sched, ArrayList<TaskInstance> activeAPList, TaskInstance serverT, int currentTime)
-	{
-		//Check if the current task is done
-		if(apExecuting != null && apExecuting.getCompTimeRemaining() <= 0)
-		{
-			sched.addCompleted(apExecuting);
-			apExecuting = null;
-		}
-		
+	{		
 		//Check for missed deadlines
 		if(apExecuting != null && apExecuting.getDeadline() <= currentTime)
 		{
@@ -97,6 +90,14 @@ public abstract class PeriodicServer
 		
 		//Update at the end
 		update(activeAPList, currentTime);
+		
+		//Check if the current task is done
+		if(apExecuting != null && apExecuting.getCompTimeRemaining() <= 0)
+		{
+			//Plus 1 since we need to increment current time by itself
+			sched.addCompletedAtTime(apExecuting, currentTime+1);
+			apExecuting = null;
+		}
 	}
 	
 	private void update(ArrayList<TaskInstance> activeAPList, int currentTime)

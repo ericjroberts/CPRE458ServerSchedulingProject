@@ -30,6 +30,10 @@ public class ServerScheduler
 		pollingServerScheduling.run();
 		deferrebleServerScheduling.run();
 		priorityExchangeServerScheduling.run();
+		
+		pollingServerScheduling.printResults();
+		//deferrebleServerScheduling.printResults();
+		//priorityExchangeServerScheduling.printResults();
 	}
 	
 	private static Queue<TaskInstance> getTaskSetFromFile(String fileName)
@@ -46,7 +50,6 @@ public class ServerScheduler
 
             while((line = bReader.readLine()) != null) 
             {
-            	System.out.println(line);
             	String[] params;
                 switch(line)
                 {

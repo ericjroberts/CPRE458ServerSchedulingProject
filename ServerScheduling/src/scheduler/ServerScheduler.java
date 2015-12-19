@@ -14,18 +14,21 @@ public class ServerScheduler
 	static int compTime = 2;
 	static int period = 5;
 	static int totalTime = 120;
+	static String fileName = "taskSet1.txt";
 	
 	public static void main(String[] args) 
 	{
 		//Read in task set. Make a list of tasks
-		Queue<TaskInstance> instanceList = getTaskSetFromFile("taskSet1.txt");
+		Queue<TaskInstance> pollingInstanceList = getTaskSetFromFile(fileName);
+		Queue<TaskInstance> deferrableInstanceList = getTaskSetFromFile(fileName);
+		Queue<TaskInstance> priorityInstanceList = getTaskSetFromFile(fileName);
 		Polling pollingServer = new Polling(compTime, period);
 		Deferrable deferrableServer = new Deferrable(compTime, period);
 		PriorityExchange priorityExchangeServer = new PriorityExchange(compTime, period);
 		
-		RMSScheduler pollingServerScheduling = new RMSScheduler(pollingServer, instanceList, totalTime);
-		RMSScheduler deferrebleServerScheduling = new RMSScheduler(deferrableServer, instanceList, totalTime);
-		RMSScheduler priorityExchangeServerScheduling = new RMSScheduler(priorityExchangeServer, instanceList, totalTime);
+		RMSScheduler pollingServerScheduling = new RMSScheduler(pollingServer, pollingInstanceList, totalTime);
+		RMSScheduler deferrebleServerScheduling = new RMSScheduler(deferrableServer, deferrableInstanceList, totalTime);
+		RMSScheduler priorityExchangeServerScheduling = new RMSScheduler(priorityExchangeServer, priorityInstanceList, totalTime);
 		
 		pollingServerScheduling.run();
 		deferrebleServerScheduling.run();

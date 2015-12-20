@@ -123,7 +123,11 @@ public class RMSScheduler
 			else if(activePeriodicInstances.get(0).getPeriod() < executing.getPeriod())
 			{
 				TaskInstance temp = activePeriodicInstances.remove(0);
-				addPreemption(executing, temp, currentTime);
+				//Check of this is an actual pre-emption. Server has to decide what to do with its time if nothing to run still
+				if(!(temp.isServerTask && activeAperiodicInstances.size() == 0 && !server.isExecuting()))
+				{
+					addPreemption(executing, temp, currentTime);
+				}			
 				activePeriodicInstances.add(executing);
 				executing = temp;		
 			}
@@ -215,8 +219,11 @@ public class RMSScheduler
 	
 	public void addMissed(TaskInstance missed)
 	{
-		missed.setMissDeadiline(true);
-		missedInstances.add(missed);
+		if(!missed.isServerTask)
+		{
+			missed.setMissDeadiline(true);
+			missedInstances.add(missed);
+		}
 	}
 	
 	public void addPeriodicTask(TaskInstance toAdd)

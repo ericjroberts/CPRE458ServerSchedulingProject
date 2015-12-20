@@ -358,16 +358,16 @@ public class RMSScheduler
 		avgCompletedAperiodicWaitTime = getAverageWaitTime(completedAperiodicInstances);
 		
 		
-		statsMessage += "All Tasks:\n"
+		statsMessage += "\nAll Tasks:\n"
 					  + "Average Response Time: " + avgCompletedResponseTime + "\n"
 					  + "Average Wait Time: " + avgCompletedWaitTime + "\n"
-					  + "Periodic Tasks:\n"
+					  + "\nPeriodic Tasks:\n"
 					  + "Average Response Time: " + avgCompletedPeriodicResponseTime + "\n"
 					  + "Average Wait Time: " + avgCompletedPeriodicWaitTime + "\n"
-					  + "Aperiodic Tasks:"
+					  + "\nAperiodic Tasks:\n"
 					  + "Averiage ResponseTime: " + avgCompletedAperiodicResponseTime + "\n"
 					  + "Average Wait Time: " + avgCompletedAperiodicWaitTime + "\n"
-					  + "Missed Deadlines: " + missedInstances.size();
+					  + "\nMissed Deadlines: " + missedInstances.size();
 		return statsMessage;
 	}
 	

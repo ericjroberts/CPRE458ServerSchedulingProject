@@ -319,6 +319,10 @@ public class RMSScheduler
 		return (sum/size);
 	}
 	
+	/**
+	 * Returns a string containing statistics on the task instances.
+	 * @return A string containing statistics on the task instances.
+	 */
 	public String getStats()
 	{
 		String statsMessage = "";
@@ -332,6 +336,7 @@ public class RMSScheduler
 		ArrayList<TaskInstance> completedPeriodicInstances = new ArrayList<TaskInstance>();
 		ArrayList<TaskInstance> completedAperiodicInstances = new ArrayList<TaskInstance>();
 		TaskInstance current;
+		Preemption currentPreemption;
 		
 		//ignore server tasks.
 		for(int i = 0; i < size; i++)
@@ -367,7 +372,31 @@ public class RMSScheduler
 					  + "\nAperiodic Tasks:\n"
 					  + "Averiage ResponseTime: " + avgCompletedAperiodicResponseTime + "\n"
 					  + "Average Wait Time: " + avgCompletedAperiodicWaitTime + "\n"
-					  + "\nMissed Deadlines: " + missedInstances.size();
+					  + "\nMissed Deadlines: " + missedInstances.size() + "\n";
+		
+		
+		for(int i = 0; i < missedInstances.size(); i++)
+		{
+			current = missedInstances.get(i);
+			
+			statsMessage += "\n" + current.getLabel() + current.getTaskInstance() + ":\nArrivalTime: " + current.arrivalTime + "\nDeadline: " + current.getDeadline();
+		}
+		
+		statsMessage += "\n\nPreemptions: " + preemptionList.size();
+		
+		for(int i = 0; i < preemptionList.size(); i++)
+		{
+			currentPreemption = preemptionList.get(i);
+			TaskInstance preempted = currentPreemption.getPreempted();
+			TaskInstance preempting = currentPreemption.getPreempting();
+			
+			statsMessage += "\n\nPreemption " + i
+						 + "\nTime: " + currentPreemption.getTime()
+						 + "\nPreempted: " + preempted.getLabel() + " " + preempted.getTaskInstance()
+						 + "\nPreempting: " + preempting.getLabel() + " " + preempting.getTaskInstance();
+		}
+		
+		
 		return statsMessage;
 	}
 	

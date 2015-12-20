@@ -149,7 +149,7 @@ public class RMSScheduler
 				//Check if the current task is done
 				if(server.getExecuting() != null && server.getExecuting().getCompTimeRemaining() <= 0)
 				{
-					addCompleted(server.getExecuting());
+					addCompletedAtTime(server.getExecuting(), currentTime+1);
 					server.setExecuting(null);
 				}
 			}

@@ -381,7 +381,8 @@ public class RMSScheduler
 		for(int i=0;i<completedInstances.size();i++)
 		{
 			System.out.println(completedInstances.get(i).getLabel() + " Instance: " + completedInstances.get(i).getTaskInstance()
-					+ " End Time: " + completedInstances.get(i).getEndTime() + " Arrival: " + completedInstances.get(i).getArrivalTime());
+					+ " End Time: " + completedInstances.get(i).getEndTime() + " Arrival: " + completedInstances.get(i).getArrivalTime()
+					+ " Start Time: " + completedInstances.get(i).getStartTime());
 		}
 	}
 	

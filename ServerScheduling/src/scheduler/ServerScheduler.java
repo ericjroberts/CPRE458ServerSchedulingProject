@@ -12,7 +12,7 @@ import java.util.Queue;
 public class ServerScheduler 
 {
 	static int compTime = 2;
-	static int period = 5;
+	static int period = 8;
 	static int totalTime = 120;
 	static String fileName = "fewAP.txt";
 	

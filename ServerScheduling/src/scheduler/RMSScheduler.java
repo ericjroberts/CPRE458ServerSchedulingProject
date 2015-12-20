@@ -197,14 +197,20 @@ public class RMSScheduler
 	
 	public void addCompleted(TaskInstance completed)
 	{
-		completed.setEndTime(currentTime);
-		completedInstances.add(completed);
+		if(!completed.isServerTask)
+		{
+			completed.setEndTime(currentTime);
+			completedInstances.add(completed);
+		}
 	}
 	
 	public void addCompletedAtTime(TaskInstance completed, int time)
 	{
-		completed.setEndTime(time);
-		completedInstances.add(completed);
+		if(!completed.isServerTask)
+		{
+			completed.setEndTime(time);
+			completedInstances.add(completed);
+		}
 	}
 	
 	public void addMissed(TaskInstance missed)

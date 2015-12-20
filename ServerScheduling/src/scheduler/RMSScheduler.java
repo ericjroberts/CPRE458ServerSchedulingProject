@@ -306,8 +306,8 @@ public class RMSScheduler
 	 */
 	public double getAverageWaitTime(ArrayList<TaskInstance> list)
 	{
-		int sum = 0;
-		int size = list.size();
+		double sum = 0;
+		double size = list.size();
 		TaskInstance current;
 		
 		for(int i = 0; i < size; i++)

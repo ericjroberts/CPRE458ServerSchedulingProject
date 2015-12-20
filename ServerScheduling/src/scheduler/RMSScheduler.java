@@ -267,6 +267,98 @@ public class RMSScheduler
 	}
 	
 	/**
+	 * Returns the average response time of a list of TaskInstances
+	 * @param list A list of TaskInstances
+	 * @return The average response time of the given list of TaskInstances
+	 */
+	public double getAverageResponseTime(ArrayList<TaskInstance> list)
+	{
+		int sum = 0;
+		int size = list.size();
+		TaskInstance current;
+		
+		for(int i = 0; i < size; i++)
+		{
+			current = list.get(i);
+			sum += (current.getEndTime() - current.getArrivalTime());
+		}
+		
+		return (sum/size);
+	}
+	
+	/**
+	 * Returns the average wait time of a list of TaskInstances
+	 * @param list A list of TaskInstances
+	 * @return The average wait time of the given list of TaskInstances.
+	 */
+	public double getAverageWaitTime(ArrayList<TaskInstance> list)
+	{
+		int sum = 0;
+		int size = list.size();
+		TaskInstance current;
+		
+		for(int i = 0; i < size; i++)
+		{
+			current = list.get(i);
+			sum += (current.getStartTime() - current.getArrivalTime());
+		}
+		
+		return (sum/size);
+	}
+	
+	public String getStats()
+	{
+		String statsMessage = "";
+		int size = completedInstances.size();
+		double avgCompletedResponseTime = getAverageResponseTime(completedInstances);
+		double avgCompletedWaitTime = getAverageWaitTime(completedInstances);
+		double avgCompletedPeriodicResponseTime;
+		double avgCompletedPeriodicWaitTime;
+		double avgCompletedAperiodicResponseTime;
+		double avgCompletedAperiodicWaitTime;
+		ArrayList<TaskInstance> completedPeriodicInstances = new ArrayList<TaskInstance>();
+		ArrayList<TaskInstance> completedAperiodicInstances = new ArrayList<TaskInstance>();
+		TaskInstance current;
+		
+		//ignore server tasks.
+		for(int i = 0; i < size; i++)
+		{
+			current = completedInstances.get(i);
+			if(!current.isServerTask())
+			{
+				if(current.getPeriod() != 0)
+				{
+					completedPeriodicInstances.add(current);
+				}
+				else
+				{
+					completedAperiodicInstances.add(current);
+				}
+			}
+		}
+		
+		avgCompletedResponseTime = getAverageResponseTime(completedInstances);
+		avgCompletedWaitTime = getAverageWaitTime(completedInstances);
+		avgCompletedPeriodicResponseTime = getAverageResponseTime(completedPeriodicInstances);
+		avgCompletedPeriodicWaitTime = getAverageWaitTime(completedPeriodicInstances);
+		avgCompletedAperiodicResponseTime = getAverageResponseTime(completedAperiodicInstances);
+		avgCompletedAperiodicWaitTime = getAverageWaitTime(completedAperiodicInstances);
+		
+		
+		statsMessage += "All Tasks:\n"
+					  + "Average Response Time: " + avgCompletedResponseTime + "\n"
+					  + "Average Wait Time: " + avgCompletedWaitTime + "\n"
+					  + "Periodic Tasks:\n"
+					  + "Average Response Time: " + avgCompletedPeriodicResponseTime + "\n"
+					  + "Average Wait Time: " + avgCompletedPeriodicWaitTime + "\n"
+					  + "Aperiodic Tasks:"
+					  + "Averiage ResponseTime: " + avgCompletedAperiodicResponseTime + "\n"
+					  + "Average Wait Time: " + avgCompletedAperiodicWaitTime + "\n"
+					  + "Missed Deadlines: " + missedInstances.size();
+		return statsMessage;
+	}
+	
+	/**
 	 * This class holds information about a single preemption.
 	 *
 	 */

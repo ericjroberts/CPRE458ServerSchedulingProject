@@ -320,6 +320,26 @@ public class RMSScheduler
 	}
 	
 	/**
+	 * Returns the percentage of time that the CPU is actually executing a task.
+	 * @return The percentage of time that the CPU is actually executing a task.
+	 */
+	private double getCPUUtilization()
+	{
+		double timeNothingExecuting = 0;
+		double size = builtSchedule.size();
+		
+		for(int i = 0; i < builtSchedule.size(); i++)
+		{
+			if(builtSchedule.get(i).equals("nothing "))
+			{
+				timeNothingExecuting++;
+			}
+		}
+		
+		return (size - timeNothingExecuting)/(double)size;
+	}
+	
+	/**
 	 * Returns a string containing statistics on the task instances.
 	 * @return A string containing statistics on the task instances.
 	 */
@@ -395,6 +415,8 @@ public class RMSScheduler
 						 + "\nPreempted: " + preempted.getLabel() + " " + preempted.getTaskInstance()
 						 + "\nPreempting: " + preempting.getLabel() + " " + preempting.getTaskInstance();
 		}
+		
+		statsMessage += "\n\nCPU Utilization: " + getCPUUtilization();
 		
 		
 		return statsMessage;

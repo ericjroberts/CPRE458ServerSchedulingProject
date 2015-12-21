@@ -14,7 +14,7 @@ public class ServerScheduler
 	static int compTime = 2;
 	static int period = 8;
 	static int totalTime = 120;
-	static String fileName = "taskSet1.txt";
+	static String fileName = "burst.txt";
 	
 	public static void main(String[] args) 
 	{
@@ -34,6 +34,9 @@ public class ServerScheduler
 		deferrebleServerScheduling.run();
 		priorityExchangeServerScheduling.run();
 		
+		
+		
+		System.out.println("Task Set: " + fileName + "\n");
 		//pollingServerScheduling.printResults();
 		System.out.println("***=======Polling Server=======***:\n");
 		System.out.println(pollingServerScheduling.getBuiltScheduleString());

@@ -405,7 +405,10 @@ public class RMSScheduler
 		{
 			current = missedInstances.get(i);
 			
-			statsMessage += "\n" + current.getLabel() + current.getTaskInstance() + ":\nArrivalTime: " + current.arrivalTime + "\nDeadline: " + current.getDeadline();
+			statsMessage += "\n" + current.getLabel() + " " + current.getTaskInstance() 
+						 + ":\nArrivalTime: " + current.arrivalTime
+						 + "\nDeadline: " + current.getDeadline()
+						 + "\n";
 		}
 		if(preemptionList.size() != 0)
 		{

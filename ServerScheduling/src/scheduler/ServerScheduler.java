@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class ServerScheduler 
+public class ServerScheduler
 {
 	static int compTime = 2;
 	static int period = 8;
@@ -39,15 +39,15 @@ public class ServerScheduler
 		System.out.println("Task Set: " + fileName + "\n");
 		//pollingServerScheduling.printResults();
 		System.out.println("***=======Polling Server=======***:\n");
-		System.out.println(pollingServerScheduling.getBuiltScheduleString());
+		System.out.println(pollingServerScheduling.getBuiltScheduleStringVertical());
 		System.out.println(pollingServerScheduling.getStats());
 		//deferrebleServerScheduling.printResults();
 		System.out.println("***=======Deferrable Server=======***:\n");
-		System.out.println(deferrebleServerScheduling.getBuiltScheduleString());
+		System.out.println(deferrebleServerScheduling.getBuiltScheduleStringVertical());
 		System.out.println(deferrebleServerScheduling.getStats());
 		//priorityExchangeServerScheduling.printResults();
 		System.out.println("***=======Priority Exchange Server=======***:\n");
-		System.out.println(priorityExchangeServerScheduling.getBuiltScheduleString());
+		System.out.println(priorityExchangeServerScheduling.getBuiltScheduleStringVertical());
 		System.out.println(priorityExchangeServerScheduling.getStats());
 	}
 	

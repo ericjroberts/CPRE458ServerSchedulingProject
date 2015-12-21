@@ -34,11 +34,15 @@ public class ServerScheduler
 		deferrebleServerScheduling.run();
 		priorityExchangeServerScheduling.run();
 		
-		pollingServerScheduling.printResults();
+		//pollingServerScheduling.printResults();
 		System.out.println(pollingServerScheduling.getBuiltScheduleString());
 		System.out.println(pollingServerScheduling.getStats());
 		//deferrebleServerScheduling.printResults();
+		//System.out.println(deferrebleServerScheduling.getBuiltScheduleString());
+		//System.out.println(deferrebleServerScheduling.getStats());
 		//priorityExchangeServerScheduling.printResults();
+		//System.out.println(priorityExchangeServerScheduling.getBuiltScheduleString());
+		//System.out.println(priorityExchangeServerScheduling.getStats());
 	}
 	
 	private static Queue<TaskInstance> getTaskSetFromFile(String fileName)
@@ -99,7 +103,7 @@ public class ServerScheduler
         }
         
         totalTime = findLcm(periods);
-        System.out.println("LCM: " + totalTime);
+       // System.out.println("LCM: " + totalTime);
         
         for(Task T: taskList)
         {

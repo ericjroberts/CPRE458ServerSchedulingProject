@@ -14,7 +14,7 @@ public class ServerScheduler
 	static int compTime = 2;
 	static int period = 8;
 	static int totalTime = 120;
-	static String fileName = "fewAP.txt";
+	static String fileName = "taskSet1.txt";
 	
 	public static void main(String[] args) 
 	{
@@ -35,14 +35,17 @@ public class ServerScheduler
 		priorityExchangeServerScheduling.run();
 		
 		//pollingServerScheduling.printResults();
+		System.out.println("***=======Polling Server=======***:\n");
 		System.out.println(pollingServerScheduling.getBuiltScheduleString());
 		System.out.println(pollingServerScheduling.getStats());
 		//deferrebleServerScheduling.printResults();
-		//System.out.println(deferrebleServerScheduling.getBuiltScheduleString());
-		//System.out.println(deferrebleServerScheduling.getStats());
+		System.out.println("***=======Deferrable Server=======***:\n");
+		System.out.println(deferrebleServerScheduling.getBuiltScheduleString());
+		System.out.println(deferrebleServerScheduling.getStats());
 		//priorityExchangeServerScheduling.printResults();
-		//System.out.println(priorityExchangeServerScheduling.getBuiltScheduleString());
-		//System.out.println(priorityExchangeServerScheduling.getStats());
+		System.out.println("***=======Priority Exchange Server=======***:\n");
+		System.out.println(priorityExchangeServerScheduling.getBuiltScheduleString());
+		System.out.println(priorityExchangeServerScheduling.getStats());
 	}
 	
 	private static Queue<TaskInstance> getTaskSetFromFile(String fileName)

@@ -258,7 +258,7 @@ public class RMSScheduler
 	 */
 	public String getBuiltScheduleString()
 	{
-		String scheduleString = "";
+		String scheduleString = "Built Schedule:\n";
 		String current;
 		String previous = null;
 		
@@ -274,7 +274,7 @@ public class RMSScheduler
 			previous = current;
 		}
 		
-		scheduleString += "|" + builtSchedule.size() + "|";
+		scheduleString += "|" + builtSchedule.size() + "|\n";
 		
 		return scheduleString;
 	}
@@ -392,18 +392,25 @@ public class RMSScheduler
 					  + "\nAperiodic Tasks:\n"
 					  + "Averiage ResponseTime: " + avgCompletedAperiodicResponseTime + "\n"
 					  + "Average Wait Time: " + avgCompletedAperiodicWaitTime + "\n"
-					  + "\nMissed Deadlines: " + missedInstances.size() + "\n";
+					  + "\nMissed Deadlines: " + missedInstances.size()
+					  + "\n\nPreemptions: " + preemptionList.size()
+					  + "\n\nCPU Utilization: " + getCPUUtilization();
 		
 		
+		if(missedInstances.size() != 0)
+		{
+			statsMessage += "\n\n\nList of Missed Deadlines:\n";
+		}
 		for(int i = 0; i < missedInstances.size(); i++)
 		{
 			current = missedInstances.get(i);
 			
 			statsMessage += "\n" + current.getLabel() + current.getTaskInstance() + ":\nArrivalTime: " + current.arrivalTime + "\nDeadline: " + current.getDeadline();
 		}
-		
-		statsMessage += "\n\nPreemptions: " + preemptionList.size();
-		
+		if(preemptionList.size() != 0)
+		{
+			statsMessage += "\n\n\nList of Preemptions:";
+		}
 		for(int i = 0; i < preemptionList.size(); i++)
 		{
 			currentPreemption = preemptionList.get(i);
@@ -416,8 +423,7 @@ public class RMSScheduler
 						 + "\nPreempting: " + preempting.getLabel() + " " + preempting.getTaskInstance();
 		}
 		
-		statsMessage += "\n\nCPU Utilization: " + getCPUUtilization();
-		
+		statsMessage += "\n";
 		
 		return statsMessage;
 	}

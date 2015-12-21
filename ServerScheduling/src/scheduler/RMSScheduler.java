@@ -261,8 +261,9 @@ public class RMSScheduler
 		String scheduleString = "Built Schedule:\n";
 		String current;
 		String previous = null;
+		int size = builtSchedule.size();
 		
-		for(int i = 0; i < builtSchedule.size(); i++)
+		for(int i = 0; i < size; i++)
 		{
 			current = builtSchedule.get(i);
 			
@@ -275,6 +276,37 @@ public class RMSScheduler
 		}
 		
 		scheduleString += "|" + builtSchedule.size() + "|\n";
+		
+		return scheduleString;
+	}
+	
+	/**
+	 * Returns a vertical representation of task instances in a laid out schedule
+	 * @return A vertical representation of task instances in a laid out schedule
+	 */
+	public String getBuiltScheduleStringVertical()
+	{
+		String scheduleString = "Built Schedule:\n";
+		String current;
+		String previous = builtSchedule.get(0);
+		int size = builtSchedule.size();
+		
+		scheduleString += "|" + 0 + "| " + builtSchedule.get(0);
+		
+		for(int i = 1; i < size; i++)
+		{
+			current = builtSchedule.get(i);
+			
+			//if this current string is not the same task instance, only then should it put down a new time and string.
+			if(!current.equals(previous))
+			{
+				scheduleString += " |" + i + "|\n";
+				scheduleString += "|" + i + "| " + current;
+			}
+			previous = current;
+		}
+		
+		scheduleString += "|" + size + "|\n";
 		
 		return scheduleString;
 	}
